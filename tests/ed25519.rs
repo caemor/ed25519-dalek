@@ -217,7 +217,7 @@ mod integrations {
 mod serialisation {
     use super::*;
 
-    use self::bincode::{serialize, serialized_size, deserialize, Infinite};
+    use self::bincode::{serialize, serialized_size, deserialize};
 
     static PUBLIC_KEY_BYTES: [u8; PUBLIC_KEY_LENGTH] = [
         130, 039, 155, 015, 062, 076, 188, 063,
@@ -245,7 +245,7 @@ mod serialisation {
     #[test]
     fn serialize_deserialize_signature() {
         let signature: Signature = Signature::from_bytes(&SIGNATURE_BYTES).unwrap();
-        let encoded_signature: Vec<u8> = serialize(&signature, Infinite).unwrap();
+        let encoded_signature: Vec<u8> = serialize(&signature).unwrap();
         let decoded_signature: Signature = deserialize(&encoded_signature).unwrap();
 
         assert_eq!(signature, decoded_signature);
@@ -254,7 +254,7 @@ mod serialisation {
     #[test]
     fn serialize_deserialize_public_key() {
         let public_key: PublicKey = PublicKey::from_bytes(&PUBLIC_KEY_BYTES).unwrap();
-        let encoded_public_key: Vec<u8> = serialize(&public_key, Infinite).unwrap();
+        let encoded_public_key: Vec<u8> = serialize(&public_key).unwrap();
         let decoded_public_key: PublicKey = deserialize(&encoded_public_key).unwrap();
 
         assert_eq!(&PUBLIC_KEY_BYTES[..], &encoded_public_key[encoded_public_key.len() - 32..]);
@@ -264,7 +264,7 @@ mod serialisation {
     #[test]
     fn serialize_deserialize_secret_key() {
         let secret_key: SecretKey = SecretKey::from_bytes(&SECRET_KEY_BYTES).unwrap();
-        let encoded_secret_key: Vec<u8> = serialize(&secret_key, Infinite).unwrap();
+        let encoded_secret_key: Vec<u8> = serialize(&secret_key).unwrap();
         let decoded_secret_key: SecretKey = deserialize(&encoded_secret_key).unwrap();
 
         for i in 0..32 {
